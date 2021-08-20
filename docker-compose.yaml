@@ -1,0 +1,21 @@
+# v2.1 syntax
+version: '2.1'
+
+# Named volumes
+volumes:
+  # Postgres Data
+  e-learning-api-postgres-data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres:11
+    container_name: e-learning-api-postgres
+    volumes:
+      - e-learning-api-postgres-data:/var/lib/postgresql/data
+    ports:
+      - "7654:5432"
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=homestead
+      - POSTGRES_USER=root
