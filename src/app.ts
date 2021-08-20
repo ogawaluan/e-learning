@@ -6,7 +6,6 @@ import 'express-async-errors';
 
 import createConnection from './database';
 
-
 class App {
   express: Application;
 
