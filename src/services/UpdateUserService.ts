@@ -13,13 +13,13 @@ class UpdateUserService {
   public async execute({ id, name, email, password }: IRequest): Promise<User> {
     const usersRepository = getRepository(User);
 
-    let user = await usersRepository.findOne(id);
+    const user = await usersRepository.findOneOrFail(id);
 
-    let user = {
-      name,
-      email,
-      password,
-    };
+    // let user = {
+    //   name,
+    //   email,
+    //   password,
+    // };
 
     return user;
   }
