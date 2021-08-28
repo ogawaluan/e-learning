@@ -9,7 +9,7 @@ import {
   BeforeUpdate,
 } from 'typeorm';
 
-import { hash } from 'bcrypt';
+import { passwordHelper } from '../helpers';
 
 @Entity('users')
 class User {
@@ -38,7 +38,7 @@ class User {
   @BeforeUpdate()
   private async hashUserPassword?(): Promise<void> {
     if (this.password) {
-      this.password = await hash(this.password, 8);
+      this.password = await passwordHelper.generateHash(this.password);
     }
   }
 }
