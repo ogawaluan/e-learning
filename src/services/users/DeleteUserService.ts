@@ -1,9 +1,9 @@
 import { getRepository } from 'typeorm';
 
-import User from '../models/User';
+import User from '../../models/User';
 
 class DeleteUserService {
-  public async execute(id: string): Promise<void> {
+  static execute = async (id: string): Promise<void> => {
     const usersRepository = getRepository(User);
 
     const user = await usersRepository.findOneOrFail(id);
@@ -11,7 +11,7 @@ class DeleteUserService {
     await usersRepository.delete({
       id: user.id,
     });
-  }
+  };
 }
 
 export default DeleteUserService;

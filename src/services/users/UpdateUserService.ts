@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 
-import User from '../models/User';
+import User from '../../models/User';
 
 interface IRequest {
   id: string;
@@ -10,19 +10,23 @@ interface IRequest {
 }
 
 class UpdateUserService {
-  public async execute({ id, name, email, password }: IRequest): Promise<User> {
+  static execute = async ({
+    id,
+    name,
+    email,
+    password,
+  }: IRequest): Promise<User> => {
     const usersRepository = getRepository(User);
 
     const user = await usersRepository.findOneOrFail(id);
+    user.name = name;
+    user.email = email;
+    user.password = password;
 
-    // let user = {
-    //   name,
-    //   email,
-    //   password,
-    // };
+    await usersRepository.save(user);
 
     return user;
-  }
+  };
 }
 
 export default UpdateUserService;

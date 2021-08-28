@@ -5,7 +5,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
+
+import { hash } from 'bcrypt';
 
 @Entity('users')
 class User {
@@ -13,13 +17,13 @@ class User {
   id: string;
 
   @Column()
-  name: string;
+  name?: string;
 
   @Column()
-  email: string;
+  email?: string;
 
   @Column()
-  password: string;
+  password?: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -29,6 +33,14 @@ class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  private async hashUserPassword?(): Promise<void> {
+    if (this.password) {
+      this.password = await hash(this.password, 8);
+    }
+  }
 }
 
 export default User;
