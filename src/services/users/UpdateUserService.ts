@@ -21,7 +21,9 @@ class UpdateUserService {
     const user = await usersRepository.findOneOrFail(id);
     user.name = name;
     user.email = email;
-    user.password = password;
+    if (password) {
+      user.password = password;
+    }
 
     await usersRepository.save(user);
 

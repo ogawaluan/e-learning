@@ -5,6 +5,7 @@ import {
   ListAllUsersService,
   UpdateUserService,
   ListOneUserService,
+  UpdateUserAvatarService,
 } from '../services/users';
 import { userViews } from '../views';
 
@@ -50,6 +51,15 @@ class UsersController {
     await DeleteUserService.execute(id);
 
     return response.status(204).send();
+  };
+
+  patch: RequestHandler = async (request, response): Promise<Response> => {
+    const updateUserAvatar = await UpdateUserAvatarService.execute({
+      userId: request.user.id,
+      avatarFilename: request.file?.filename,
+    });
+
+    return response.status(204).json(updateUserAvatar);
   };
 }
 
