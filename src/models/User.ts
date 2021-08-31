@@ -22,7 +22,7 @@ class User {
   @Column()
   email?: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column()
@@ -39,7 +39,7 @@ class User {
 
   @BeforeInsert()
   @BeforeUpdate()
-  private async hashUserPassword?(): Promise<void> {
+  private async hashUserPassword(): Promise<void> {
     if (this.password) {
       this.password = await passwordHelper.generateHash(this.password);
     }

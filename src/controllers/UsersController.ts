@@ -59,7 +59,7 @@ class UsersController {
       avatarFilename: request.file?.filename,
     });
 
-    return response.status(204).json(updateUserAvatar);
+    return response.status(200).json(userViews.renderOne(updateUserAvatar));
   };
 }
 

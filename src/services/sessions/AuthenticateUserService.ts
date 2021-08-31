@@ -1,7 +1,6 @@
 import { getRepository } from 'typeorm';
-import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
-// import { passwordHelper } from '../../helpers';
+import { passwordHelper } from '../../helpers';
 
 import authConfig from '../../config/auth';
 
@@ -25,22 +24,28 @@ class AuthenticateUserService {
   }: IRequest): Promise<IResponse> => {
     const usersRepository = getRepository(User);
 
-    const user = await usersRepository.findOne({ where: { email } });
+    const user = await usersRepository.findOne({
+      where: { email },
+      select: ['id', 'name', 'email', 'password', 'createdAt'],
+    });
 
     if (!user) {
-      throw new AppError('Incorrect email/password combination.', 401);
+      throw new AppError('Incorrect email combination.', 401);
     }
 
-    const passwordMatched = await compare(password, user.password);
+    const passwordMatched = await passwordHelper.compareHash(
+      user.password,
+      password
+    );
 
     if (!passwordMatched) {
-      throw new AppError('Incorrect email/password combination.', 401);
+      throw new AppError('Incorrect password combination.', 401);
     }
 
     const { secret, expiresIn } = authConfig.jwt;
 
     const token = sign({}, secret, {
-      subject: user?.id,
+      subject: user.id,
       expiresIn,
     });
 

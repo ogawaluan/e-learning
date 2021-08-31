@@ -1,4 +1,4 @@
-import { compare, hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 
 export const generateHash = async (stringToHash: string): Promise<string> => {
   return hash(stringToHash, 8);
@@ -10,5 +10,5 @@ export const compareHash = async (
 ): Promise<boolean> => {
   if (!hashedString) return false;
 
-  return compare(hashedString, nonHashedString);
+  return compare(nonHashedString, hashedString);
 };
