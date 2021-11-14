@@ -5,7 +5,6 @@ import {
   ListAllUsersService,
   UpdateUserService,
   ListOneUserService,
-  UpdateUserAvatarService,
 } from '../services/users';
 import { userViews } from '../views';
 
@@ -54,8 +53,8 @@ class UsersController {
   };
 
   patch: RequestHandler = async (request, response): Promise<Response> => {
-    const updateUserAvatar = await UpdateUserAvatarService.execute({
-      userId: request.user.id,
+    const updateUserAvatar = await UpdateUserService.execute({
+      id: request.user.id,
       avatarFilename: request.file?.filename,
     });
 
