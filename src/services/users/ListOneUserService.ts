@@ -6,9 +6,7 @@ class ListOneUserService {
   static execute = async (id: string): Promise<User> => {
     const userRepo = getRepository(User);
 
-    const userId = await userRepo.findOneOrFail(id);
-
-    return userId;
+    return userRepo.findOneOrFail(id);
   };
 }
 
