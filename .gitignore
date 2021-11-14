@@ -6,5 +6,5 @@ yarn-error.log
 dist
 build
 coverage
-uploads/*
-!uploads/.gitkeep
+tmp/*
+!tmp/.gitkeep
