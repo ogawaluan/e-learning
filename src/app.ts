@@ -3,6 +3,8 @@ import 'reflect-metadata';
 import cors from 'cors';
 import express, { Application } from 'express';
 import 'express-async-errors';
+import { errorHandler, clientErrorHandler } from './middlewares';
+import routes from './routes';
 
 import createConnection from './database';
 
@@ -14,7 +16,7 @@ class App {
 
     this.middlewares();
     this.database();
-    // this.routes();
+    this.routes();
   }
 
   private middlewares = (): void => {
@@ -27,9 +29,11 @@ class App {
     await createConnection();
   };
 
-  // private routes = (): void => {
-  //   this.express.use(routes);
-  // };
+  private routes = (): void => {
+    this.express.use(routes);
+    this.express.use(errorHandler);
+    this.express.use(clientErrorHandler);
+  };
 }
 
 export default App;
