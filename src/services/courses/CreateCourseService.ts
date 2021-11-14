@@ -4,7 +4,7 @@ import Course from '../../models/Course';
 
 interface IRequest {
   name: string;
-  image: string;
+  image?: string;
 }
 
 class CreateCourseService {

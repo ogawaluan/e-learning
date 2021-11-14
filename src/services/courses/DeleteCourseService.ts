@@ -8,7 +8,7 @@ class DeleteCourseService {
 
     const course = await coursesRepository.findOneOrFail(id);
 
-    await coursesRepository.delete({
+    await coursesRepository.softDelete({
       id: course.id,
     });
   };
