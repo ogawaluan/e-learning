@@ -8,7 +8,7 @@ class DeleteUserService {
 
     const user = await usersRepository.findOneOrFail(id);
 
-    await usersRepository.delete({
+    await usersRepository.softDelete({
       id: user.id,
     });
   };

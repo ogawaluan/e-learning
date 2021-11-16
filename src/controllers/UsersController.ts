@@ -39,7 +39,13 @@ class UsersController {
     const { id } = request.params;
     const { name, email, password } = request.body;
 
-    const user = await UpdateUserService.execute({ id, name, email, password });
+    const user = await UpdateUserService.execute({
+      id,
+      name,
+      email,
+      password,
+      avatarFilename: request.file?.filename,
+    });
 
     return response.status(200).json(userViews.renderOne(user));
   };
@@ -50,15 +56,6 @@ class UsersController {
     await DeleteUserService.execute(id);
 
     return response.status(204).send();
-  };
-
-  patch: RequestHandler = async (request, response): Promise<Response> => {
-    const updateUserAvatar = await UpdateUserService.execute({
-      id: request.user.id,
-      avatarFilename: request.file?.filename,
-    });
-
-    return response.status(200).json(userViews.renderOne(updateUserAvatar));
   };
 }
 
