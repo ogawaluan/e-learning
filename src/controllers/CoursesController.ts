@@ -3,6 +3,7 @@ import {
   CreateCourseService,
   UpdateCourseService,
   ListAllCoursesService,
+  ListCourseLessonsService,
   ListOneCourseService,
   DeleteCourseService,
 } from '../services/courses';
@@ -21,6 +22,17 @@ class CoursesController {
     const course = await ListOneCourseService.execute(id);
 
     return response.status(200).json(courseViews.renderOne(course));
+  };
+
+  showLessons: RequestHandler = async (
+    request,
+    response
+  ): Promise<Response> => {
+    const { courseId } = request.params;
+
+    const courseLessons = await ListCourseLessonsService.execute(courseId);
+
+    return response.status(200).json(courseLessons);
   };
 
   create: RequestHandler = async (request, response): Promise<Response> => {

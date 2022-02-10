@@ -7,7 +7,7 @@ interface IRequest {
   duration: number;
   courseId: string;
   description: string;
-  videoId: string;
+  url: string;
 }
 
 class CreateLessonService {
@@ -16,16 +16,18 @@ class CreateLessonService {
     duration,
     courseId,
     description,
-    videoId,
+    url,
   }: IRequest): Promise<Lesson> => {
     const lessonsRepository = getRepository(Lesson);
+
+    const videoId = url.split('=');
 
     const lesson = lessonsRepository.create({
       name,
       duration,
       courseId,
       description,
-      videoId,
+      videoId: videoId[1],
     });
 
     await lessonsRepository.save(lesson);

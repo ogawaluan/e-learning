@@ -19,6 +19,16 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
+    "prefer-destructuring": [
+      "error",
+      {
+        "array": false,
+        "object": true
+      },
+      {
+        "enforceForRenamedProperties": false
+      }
+    ],
     "class-methods-use-this": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",

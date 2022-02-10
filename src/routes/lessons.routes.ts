@@ -7,6 +7,6 @@ lessonsRouter.get('/', lessonsController.index);
 lessonsRouter.get('/:id', lessonsController.show);
 lessonsRouter.post('/', lessonsController.create);
 lessonsRouter.put('/:id', lessonsController.update);
-lessonsRouter.delete(':id/', lessonsController.delete);
+lessonsRouter.delete('/:id/', lessonsController.delete);
 
 export default lessonsRouter;

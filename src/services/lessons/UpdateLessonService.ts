@@ -8,7 +8,7 @@ interface IRequest {
   duration?: number;
   courseId?: string;
   description?: string;
-  videoId?: string;
+  url?: string;
 }
 
 class UpdateLessonService {
@@ -18,16 +18,21 @@ class UpdateLessonService {
     duration,
     courseId,
     description,
-    videoId,
+    url,
   }: IRequest): Promise<Lesson> => {
     const lessonsRepository = getRepository(Lesson);
+
+    let videoId;
 
     const lesson = await lessonsRepository.findOneOrFail(id);
     lesson.name = name ?? lesson.name;
     lesson.duration = duration ?? lesson.duration;
     lesson.courseId = courseId ?? lesson.courseId;
     lesson.description = description ?? lesson.description;
-    lesson.videoId = videoId ?? lesson.videoId;
+    if (url) {
+      videoId = url.split('=');
+      lesson.videoId = videoId[1];
+    }
 
     await lessonsRepository.save(lesson);
 

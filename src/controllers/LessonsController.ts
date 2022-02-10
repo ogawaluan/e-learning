@@ -6,8 +6,9 @@ import {
   ListOneLessonService,
   UpdateLessonService,
 } from '../services/lessons';
+import { ListOneCourseService } from '../services/courses';
 
-import { lessonViews } from '../views';
+import { lessonViews, courseViews } from '../views';
 
 class LessonsController {
   index: RequestHandler = async (request, response): Promise<Response> => {
@@ -17,22 +18,26 @@ class LessonsController {
   };
 
   show: RequestHandler = async (request, response): Promise<Response> => {
-    const { id } = request.params;
+    const { courseId, id } = request.params;
+
+    const course = await ListOneCourseService.execute(courseId);
 
     const lesson = await ListOneLessonService.execute(id);
 
-    return response.status(200).json(lessonViews.renderOne(lesson));
+    return response
+      .status(200)
+      .json([lessonViews.renderOne(lesson), courseViews.renderOne(course)]);
   };
 
   create: RequestHandler = async (request, response): Promise<Response> => {
-    const { name, duration, courseId, description, videoId } = request.body;
+    const { name, duration, courseId, description, url } = request.body;
 
     const lesson = await CreateLessonService.execute({
       name,
       duration,
       courseId,
       description,
-      videoId,
+      url,
     });
 
     return response.status(200).json(lessonViews.renderOne(lesson));
@@ -40,7 +45,7 @@ class LessonsController {
 
   update: RequestHandler = async (request, response): Promise<Response> => {
     const { id } = request.params;
-    const { name, duration, courseId, description, videoId } = request.body;
+    const { name, duration, courseId, description, url } = request.body;
 
     const lesson = await UpdateLessonService.execute({
       id,
@@ -48,7 +53,7 @@ class LessonsController {
       duration,
       courseId,
       description,
-      videoId,
+      url,
     });
 
     return response.status(200).json(lessonViews.renderOne(lesson));
